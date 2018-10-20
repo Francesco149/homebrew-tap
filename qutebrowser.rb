@@ -50,14 +50,21 @@ class Qutebrowser < Formula
   end
 
   def install
-    virtualenv_install_with_resources
-    prefix.install resource("MacQutebrowser")
+    venv = virtualenv_create(libexec, "python")
+    venv.pip_install resources
+    venv.pip_install_and_link buildpath
+    (prefix/"MacQutebrowser.app")
+      .install resource("MacQutebrowser")
   end
 
   def caveats
     <<~EOS
       the app bundle wrapper is named MacQutebrowser and it's
       unsigned, so you might need to allow it to run the first time
+
+      install the app bundle with
+
+        cp -r #{prefix}/MacQutebrowser.app /Applications
     EOS
   end
 end
