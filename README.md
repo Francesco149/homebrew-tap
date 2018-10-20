@@ -8,5 +8,6 @@ other missing codecs.
 
 ```
 brew install Francesco149/homebrew-tap/qutebrowser
+cp -r /usr/local/opt/qutebrowser/MacQutebrowser.app /Applications
 ```
 
