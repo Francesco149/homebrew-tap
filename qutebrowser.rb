@@ -45,8 +45,8 @@ class Qutebrowser < Formula
   end
 
   resource "MacQutebrowser" do
-    url "https://github.com/Francesco149/MacQutebrowser/releases/download/1.0.0/MacQutebrowser.zip"
-    sha256 "6bba682a0519689208ea70348654e0a8c3cd8971384f7a06ca406038e8cecac0"
+    url "https://github.com/Francesco149/MacQutebrowser/releases/download/1.0.1/MacQutebrowser.zip"
+    sha256 "d2c2c6df1b3d8bb0155ae29bd8914acd84ccb57decc2fa4a1b44f5c03cf9ca7a  /"
   end
 
   def install
