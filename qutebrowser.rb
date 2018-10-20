@@ -152,7 +152,14 @@ class Qutebrowser < Formula
     <<~EOS
       to see qutebrowser in spotlight and in the default browser
       settings, link the .app by running
-      ln -s #{prefix}/qutebrowser.app /Applications
+
+        cp -r #{prefix}/qutebrowser.app /Applications
+
+      it's a good idea to re-run this on updates in case the
+      app wrapper gets updated
+
+      a simple symlink won't work because spotlight refuses to
+      follow it
     EOS
   end
 end
