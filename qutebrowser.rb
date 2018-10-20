@@ -50,8 +50,9 @@ class Qutebrowser < Formula
   end
 
   def install
-    venv = virtualenv_create(libexec, "python")
+    venv = virtualenv_create(libexec, "python3")
     venv.pip_install resources
+      .select { |x| x.name != "MacQutebrowser" }
     venv.pip_install_and_link buildpath
     (prefix/"MacQutebrowser.app")
       .install resource("MacQutebrowser")
