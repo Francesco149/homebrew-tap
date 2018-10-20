@@ -44,122 +44,20 @@ class Qutebrowser < Formula
     sha256 "10cbf6e27dbce8c30807caf056c8eb50917e0eaafe86347671b57254006c3e69"
   end
 
+  resource "MacQutebrowser" do
+    url "https://github.com/Francesco149/MacQutebrowser/releases/download/1.0.0/MacQutebrowser.zip"
+    sha256 "6bba682a0519689208ea70348654e0a8c3cd8971384f7a06ca406038e8cecac0"
+  end
+
   def install
     virtualenv_install_with_resources
-    appdir = buildpath/"qutebrowser.app/Contents/"
-    (appdir/"Info.plist").write <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-      <dict>
-        <key>CFBundleDisplayName</key>
-        <string>qutebrowser</string>
-        <key>CFBundleDocumentTypes</key>
-        <array>
-          <dict>
-            <key>CFBundleTypeExtensions</key>
-            <array>
-              <string>html</string>
-              <string>htm</string>
-            </array>
-            <key>CFBundleTypeMIMETypes</key>
-            <array>
-              <string>text/html</string>
-            </array>
-            <key>CFBundleTypeName</key>
-            <string>HTML document</string>
-            <key>CFBundleTypeOSTypes</key>
-            <array>
-              <string>HTML</string>
-            </array>
-            <key>CFBundleTypeRole</key>
-            <string>Viewer</string>
-          </dict>
-          <dict>
-            <key>CFBundleTypeExtensions</key>
-            <array>
-              <string>xhtml</string>
-            </array>
-            <key>CFBundleTypeMIMETypes</key>
-            <array>
-              <string>text/xhtml</string>
-            </array>
-            <key>CFBundleTypeName</key>
-            <string>XHTML document</string>
-            <key>CFBundleTypeRole</key>
-            <string>Viewer</string>
-          </dict>
-        </array>
-        <key>CFBundleExecutable</key>
-        <string>MacOS/qutebrowser</string>
-        <key>CFBundleIconFile</key>
-        <string>qutebrowser.icns</string>
-        <key>CFBundleIdentifier</key>
-        <string>org.qt-project.Qt.QtWebEngineCore</string>
-        <key>CFBundleInfoDictionaryVersion</key>
-        <string>6.0</string>
-        <key>CFBundleName</key>
-        <string>qutebrowser</string>
-        <key>CFBundlePackageType</key>
-        <string>APPL</string>
-        <key>CFBundleShortVersionString</key>
-        <string>#{version}</string>
-        <key>CFBundleURLTypes</key>
-        <array>
-          <dict>
-            <key>CFBundleURLName</key>
-            <string>http(s) URL</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-              <string>http</string>
-              <string>https</string>
-            </array>
-          </dict>
-          <dict>
-            <key>CFBundleURLName</key>
-            <string>local file URL</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-              <string>file</string>
-            </array>
-          </dict>
-        </array>
-        <key>CFBundleVersion</key>
-        <string>#{version}</string>
-        <key>NSHighResolutionCapable</key>
-        <true/>
-        <key>NSSupportsAutomaticGraphicsSwitching</key>
-        <true/>
-      </dict>
-      </plist>
-    EOS
-    script = appdir/"MacOS/qutebrowser"
-    script.write <<~EOS
-      #!/usr/bin/osascript
-      on run
-        do shell script "#{prefix}/bin/qutebrowser"
-      end run
-      on open location this_URL
-        do shell script "#{prefix}/bin/qutebrowser '" & this_URL & "'"
-      end open location
-    EOS
-    script.chmod(0755)
-    (appdir/"Resources").install "icons/qutebrowser.icns"
-    prefix.install "qutebrowser.app"
+    prefix.install resource("MacQutebrowser")
   end
 
   def caveats
     <<~EOS
-      to see qutebrowser in spotlight and in the default browser
-      settings, link the .app by running
-
-        cp -r #{prefix}/qutebrowser.app /Applications
-
-      it's a good idea to re-run this on updates in case the
-      app wrapper gets updated
-
-      a simple symlink won't work because spotlight refuses to
-      follow it
+      the app bundle wrapper is named MacQutebrowser and it's
+      unsigned, so you might need to allow it to run the first time
     EOS
   end
 end
